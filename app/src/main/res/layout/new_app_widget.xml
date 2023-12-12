@@ -1,19 +1,45 @@
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Widget.MPL_Base.AppWidget.Container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:theme="@style/Theme.MPL_Base.AppWidgetContainer">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.MPL_Base.AppWidgetContainer">
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="16dp"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/appwidget_text"
-        style="@style/Widget.MPL_Base.AppWidget.InnerView"
-        android:layout_width="wrap_content"
+        android:id="@+id/appwidget_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:gravity="center"
+        android:text="@string/appwidget_title"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/appwidget_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="34sp" />
+
+    <Button
+        android:id="@+id/appwidget_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh_btn" />
+</LinearLayout>
 </RelativeLayout>
