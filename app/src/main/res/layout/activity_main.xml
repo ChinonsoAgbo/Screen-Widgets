@@ -29,13 +29,13 @@
                 android:gravity="center" />
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/main_random_number"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:textSize="34sp" />
+            android:id="@+id/main_random_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="34sp" />
 
         <LinearLayout
                 android:orientation="vertical"
@@ -44,27 +44,42 @@
                 android:layout_weight="1"
                 android:gravity="center">
 
-            <Button
-                    android:text="@string/refresh_btn"
+            <LinearLayout
+                android:layout_width="379dp"
+                android:layout_height="65dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/false_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/main_btn_randomize"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingStart="40dp"
-                    android:paddingEnd="40dp"
-                    android:textSize="20sp" />
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/falseButton"
+                    app:srcCompat="@drawable/icon_false" />
+
+                <ImageButton
+                    android:id="@+id/true_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/trueButton"
+                    app:srcCompat="@drawable/icon_true" />
+            </LinearLayout>
 
             <Button
-                    android:text="@string/main_btn_notify"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/main_btn_notify"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingStart="40dp"
-                    android:paddingEnd="40dp"
-                    android:textSize="20sp" />
+                android:id="@+id/main_btn_randomize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="40dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="40dp"
+                android:paddingBottom="16dp"
+                android:text="@string/refresh_btn"
+                android:textSize="20sp" />
+
         </LinearLayout>
 
     </LinearLayout>

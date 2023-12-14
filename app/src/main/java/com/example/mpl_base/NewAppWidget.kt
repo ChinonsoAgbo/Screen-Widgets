@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.example.mpl_base.activities.MainActivity
 import com.example.mpl_base.util.APP_WIDGET_ID
 import com.example.mpl_base.util.CalcUtil
 import com.example.mpl_base.util.WidgetActionEnum
@@ -41,6 +40,7 @@ class NewAppWidget : AppWidgetProvider() {
             WidgetActionEnum.REFRESH.toString() -> {
                 val number = CalcUtil.rng()
                 updateAppWidget(context!!,AppWidgetManager.getInstance(context),appWidgetId,number)
+
             }
 //            WidgetActionEnum.SYNC -> TODO()
 //            WidgetActionEnum.NOTIFY -> TODO()
@@ -56,10 +56,10 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int, number:Int
 ) {
-    val widgetText = context.getString(R.string.appwidget_text)
+    val widgetText = context.getString(R.string.is_prime_question)
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.new_app_widget)
-    views.setTextViewText (R.id.appwidget_title,context.getString(R.string.appwidget_text))
+    views.setTextViewText (R.id.appwidget_title,context.getString(R.string.is_prime_question))
     views.setTextViewText (R.id.appwidget_number, number.toString())
 
     views.setOnClickPendingIntent(R.id.appwidget_btn, refreshRandomNumber(context,appWidgetId))

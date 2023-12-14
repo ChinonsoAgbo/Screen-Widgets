@@ -17,10 +17,9 @@ class CalcUtil
                 return false
             }
 
-            for (i in 2 until number)
-            {
-                if (number % i == 0)
-                {
+            val range = 2 until (number / 2 + 1)
+            for (i in range) {
+                if (number % i == 0) {
                     return false
                 }
             }

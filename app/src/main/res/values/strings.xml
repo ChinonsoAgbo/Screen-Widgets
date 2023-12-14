@@ -11,13 +11,13 @@
     <string name="channel_name">Notification Channel</string>
     <string name="channel_description">A channel for delivering local notifications</string>
     <string name="channel_id">1</string>
-    <string name="appwidget_text">EXAMPLE</string>
+<!--    <string name="appwidget_text">EXAMPLE</string>-->
     <string name="add_widget">Add widget</string>
     <string name="refresh_btn">REFRESH</string>
     <string name="true_btn">TRUE</string>
     <string name="false_btn">FALSE</string>
 
-    <string name="main_title" translatable="false">Here is a randomly generated number</string>
+    <string name="main_title" translatable="false">Is the following number a prime number ? </string>
     <string name="main_btn_notify" translatable="false">Send Notification</string>
 
     <string name="configure">Configure</string>
@@ -27,4 +27,14 @@
     <string name="yay">YEAH!!!</string>
     <string name="nay">Ohh, bummer</string>
     <string name="appwidget_title">Generate a new number</string>
+    <string name="widget_true_btn_contentDest">"widget true btn content "</string>
+    <string name="widget_false_btn_contentDes">"widget false button content "</string>
+    <string name="trueButton">true Button content description</string>
+    <string name="falseButton">false button content</string>
+    <string name="radiobutton">RadioButton</string>
+    <string name="radiobutton2">RadioButton</string>
+    <string name="todo">TODO</string>
+    <string name="todo1">TODO</string>
+    <string name="no">NO</string>
+    <string name="yes">Yes</string>
 </resources>
