@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
         android:paddingVertical="40dp"
+        android:background="@color/color_true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

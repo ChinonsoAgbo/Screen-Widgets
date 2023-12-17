@@ -3,72 +3,67 @@
     style="@style/Widget.MPL_Base.AppWidget.Container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
     android:theme="@style/Theme.MPL_Base.AppWidgetContainer">
 
     <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingHorizontal="3dp"
-        android:paddingVertical="3dp">
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/appwidget_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:contentDescription="@string/app_widget_description"
-            android:gravity="center"
             android:text="@string/is_prime_question"
-            android:textSize="12sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/appwidget_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="15sp" />
+            android:textSize="24sp" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/widgetButtonNo"
+            <ImageButton
+                android:id="@+id/widget_wrong_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/no"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:layout_marginStart="12dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/wrong"
+                android:src="@drawable/icon_false" />
 
-            <Button
-                android:id="@+id/widgetButtonYes"
+            <ImageButton
+                android:id="@+id/widget_right_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/yes"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:layout_marginStart="12dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/right"
+                android:src="@drawable/icon_true" />
+
+
         </LinearLayout>
 
         <Button
             android:id="@+id/appwidget_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/refresh_btn"
-            style="?android:attr/buttonBarButtonStyle" />
+
+            android:text="@string/refresh_btn" />
 
     </LinearLayout>
 

@@ -37,4 +37,6 @@
     <string name="todo1">TODO</string>
     <string name="no">NO</string>
     <string name="yes">Yes</string>
+    <string name="wrong">Wrong</string>
+    <string name="right">Right</string>
 </resources>

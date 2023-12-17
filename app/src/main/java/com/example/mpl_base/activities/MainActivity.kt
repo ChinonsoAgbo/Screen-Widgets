@@ -1,24 +1,18 @@
 package com.example.mpl_base.activities
 
-import android.app.Activity
+import com.example.mpl_base.view.NumberViewModel
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.Observer
 import com.example.mpl_base.R
-import com.example.mpl_base.databinding.ActivityMainBinding
 import com.example.mpl_base.util.CalcUtil
 import com.example.mpl_base.util.IS_PRIME
 import com.example.mpl_base.util.NotificationUtil
 import com.example.mpl_base.util.RANDOM_NUMBER
-import java.sql.Array
-import java.util.Objects
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity()
@@ -29,9 +23,9 @@ class MainActivity : AppCompatActivity()
    private lateinit var notifyFalseBtn: ImageButton
     private var number by Delegates.notNull<Int>()
     private lateinit var intent:Intent
-    private lateinit var notifyIntent: Intent
-    //private lateinit var array: ArrayList<String>
+    private lateinit var notificationIntent: Intent
 
+    private lateinit var numberViewModel: NumberViewModel
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -40,10 +34,19 @@ class MainActivity : AppCompatActivity()
         // zum Notification auszuführen
                  NotificationUtil.createNotificationChannel(this)
 
+        numberViewModel = NumberViewModel.getInstance()
 
 
         setUI()
 
+        // set up an observer for numberState liveData
+        numberViewModel.numberState.observe(this, Observer {numberData->
+            // This block will be called whenever the value of numberState changes
+            val randomNumber = numberData?.randomData ?: 0
+            number=randomNumber
+            randomNumberTv.text = randomNumber.toString()
+
+        })
 
     }
 
@@ -54,19 +57,23 @@ class MainActivity : AppCompatActivity()
         notifyTrueBtn = findViewById(R.id.true_btn)
        notifyFalseBtn = findViewById(R.id.false_btn)
 
+         //randomNumber = numberViewModel.numberState.value?.random ?: 0
+
+
         //array = ArrayList() // Initialize the ArrayList
 
 
 
        randomizeBtn.setOnClickListener {
-            updateRandomNumber()
+            //updateRandomNumber()
+           numberViewModel.returnRandomNumber()
             number = randomNumberTv.text.toString().toInt()
 
         }
 
 
         // handle the true btn notifications
-        updateRandomNumber()
+       // updateRandomNumber()
 
 
          notifyTrueBtn.setOnClickListener{
@@ -87,32 +94,30 @@ class MainActivity : AppCompatActivity()
 
                 intent = Intent(this, TrueActivity::class.java)
                 intent.putExtra("myIntent", text)
-                startActivity(intent) // move to the next Activity
+               // move to the next Activity
 
                 // The Notification
-                notifyIntent = Intent(this, TrueActivity::class.java)
-
+                notificationIntent = Intent(this, TrueActivity::class.java)
+                startActivity(intent)
 
             } else{
                 title = getString(R.string.nay)
                 text = String.format(getString(R.string.answer_text), number, getString(R.string.is_not_text))
                 icon = R.drawable.icon_false
 
-                // Pass the value to the array
-
                 // Init the intent
                 intent = Intent(this, FalseActivity::class.java)
                 // put the values to the intent
                 intent.putExtra("myIntent", text)
-                notifyIntent = Intent(this, FalseActivity::class.java)
+                notificationIntent = Intent(this, FalseActivity::class.java)
 
                 startActivity(intent)
             }
 
 
-             notifyIntent.putExtra(RANDOM_NUMBER, text)
-             notifyIntent.putExtra(IS_PRIME, isPrime)
-           NotificationUtil.sendNotification(this, title, text, icon, notifyIntent)
+             notificationIntent.putExtra(RANDOM_NUMBER, text)
+             notificationIntent.putExtra(IS_PRIME, isPrime)
+           NotificationUtil.sendNotification(this, title, text, icon, notificationIntent)
         }
 
         // handle the false btn notifications
@@ -131,7 +136,7 @@ class MainActivity : AppCompatActivity()
 
                 intent = Intent(this, TrueActivity::class.java)
                 intent.putExtra("myIntent", text)
-                notifyIntent = Intent(this, TrueActivity::class.java)
+                notificationIntent = Intent(this, TrueActivity::class.java)
 
                 startActivity(intent)
             } else{
@@ -143,27 +148,25 @@ class MainActivity : AppCompatActivity()
                 intent = Intent(this, FalseActivity::class.java)
                 intent.putExtra("myIntent", text)
 
-                notifyIntent = Intent(this, FalseActivity::class.java)
+                notificationIntent = Intent(this, FalseActivity::class.java)
 
                 startActivity(intent)
             }
 
-            notifyIntent.putExtra(RANDOM_NUMBER, text)
-            notifyIntent.putExtra(IS_PRIME, isPrime)
+            notificationIntent.putExtra(RANDOM_NUMBER, text)
+            notificationIntent.putExtra(IS_PRIME, isPrime)
 
-            NotificationUtil.sendNotification(this, title, text, icon, notifyIntent)
+            NotificationUtil.sendNotification(this, title, text, icon, notificationIntent)
         }
 
 
 
     }
 
-
-
-    private fun updateRandomNumber(){
-        val randomNumber = CalcUtil.rng()
-        randomNumberTv.text = randomNumber.toString()
-        number = randomNumber
-    }
+//    private fun updateRandomNumber(){
+//        val randomNumber = CalcUtil.rng()
+//        randomNumberTv.text = randomNumber.toString()
+//        number = randomNumber
+//    }
 
 }
