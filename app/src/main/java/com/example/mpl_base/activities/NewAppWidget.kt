@@ -84,19 +84,19 @@ class NewAppWidget : AppWidgetProvider() {
                 toNotify = false
                 updateAppWidget(context!!,AppWidgetManager.getInstance(context),appWidgetId,randomNumber,toNotify)
             }
-//          WidgetActionEnum.SYNC -> TODO()
+
             WidgetActionEnum.TRUEBUTTON.toString() ->{
                 toNotify = true
                 checkTrueButtonResult(context!!,AppWidgetManager.getInstance(context),appWidgetId,randomNumber,toNotify)
 
-                Log.e("checkMethod"," methi")
+                Log.e("IntentAction","trueButton")
 
             }
             WidgetActionEnum.FALSEBUTTON.toString() ->{
                 toNotify = true
                 checkFalseButtonResult(context!!,AppWidgetManager.getInstance(context),appWidgetId,randomNumber,toNotify)
 
-                Log.e("checkMethod"," methi")
+                Log.e("IntentAction","falseButton")
 
             }
 
@@ -147,16 +147,12 @@ internal fun checkTrueButtonResult (
 ) {
     val views = RemoteViews(context.packageName, R.layout.new_app_widget) // map the widget to th views-> Remote views
 
-        val widgetText = context.getString(R.string.is_prime_question)
         // Construct the RemoteViews object
-       // views.setTextViewText (R.id.appwidget_title,context.getString(R.string.is_prime_question))
         views.setTextViewText (R.id.appwidget_number, number.toString())
 
     views.setOnClickPendingIntent(R.id.widget_right_button, notifyRightButton(context,appWidgetId,number,toNotify))
 
-
     appWidgetManager.updateAppWidget(appWidgetId, views)
-
 }
 
 internal fun checkFalseButtonResult (
@@ -165,8 +161,6 @@ internal fun checkFalseButtonResult (
     appWidgetId: Int, number:Int, toNotify: Boolean
 ) {
     val views = RemoteViews(context.packageName, R.layout.new_app_widget) // map the widget to th views-> Remote views
-
-    val widgetText = context.getString(R.string.is_prime_question)
     // Construct the RemoteViews object
     views.setTextViewText (R.id.appwidget_number, number.toString())
 
@@ -252,7 +246,6 @@ internal fun notifyWrongButton(context: Context, appWidgetId: Int, number:Int,to
 
         }
 
-
         notificationIntent.putExtra(RANDOM_NUMBER, text)
         notificationIntent.putExtra(IS_PRIME, isPrime)
         NotificationUtil.sendNotification(context, title, text, icon, notificationIntent)
@@ -260,6 +253,5 @@ internal fun notifyWrongButton(context: Context, appWidgetId: Int, number:Int,to
 
 
     return PendingIntent.getBroadcast(context,appWidgetId,refreshIntent,PendingIntent.FLAG_UPDATE_CURRENT)
-
 
 }
