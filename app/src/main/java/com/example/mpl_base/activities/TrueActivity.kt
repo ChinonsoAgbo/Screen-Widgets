@@ -22,14 +22,12 @@ class TrueActivity : AppCompatActivity() {
 
 
         val intentValue = intent.getStringExtra("myIntent")?: intent.getStringExtra(
-            RANDOM_NUMBER)
+            RANDOM_NUMBER)      // Extract the intent value
 
-       // textViewTrueTv.text = intentValue?.get(0)
-        textViewTrueTv.text = intentValue
-        backBtn.setOnClickListener{
+        textViewTrueTv.text = intentValue       // display value
+        backBtn.setOnClickListener{     // return Activit to main
 
             bckTrueIntent = Intent(this,MainActivity::class.java)
-            //bckTrueIntent.putStringArrayListExtra("intentBck",intentValue)
             startActivity(bckTrueIntent)
 
         }

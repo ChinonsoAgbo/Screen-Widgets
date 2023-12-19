@@ -1,6 +1,6 @@
 package com.example.mpl_base.activities
 
-import com.example.mpl_base.view.NumberViewModel
+import com.example.mpl_base.activities.viewModel.NumberViewModel
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +15,11 @@ import com.example.mpl_base.util.NotificationUtil
 import com.example.mpl_base.util.RANDOM_NUMBER
 import kotlin.properties.Delegates
 
+/**
+ * Main activity of the application responsible for displaying a random number,
+ * allowing users to randomize the number, and providing options to notify whether
+ * the number is prime or not.
+ */
 class MainActivity : AppCompatActivity()
 {
     private lateinit var randomNumberTv: TextView
@@ -31,12 +36,13 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // zum Notification auszuführen
-                 NotificationUtil.createNotificationChannel(this)
+        // Create a notification channel
+        NotificationUtil.createNotificationChannel(this)
 
+        // Get an instance of NumberViewModel
         numberViewModel = NumberViewModel.getInstance()
 
-
+        // Set up the user interface
         setUI()
 
         // set up an observer for numberState liveData
@@ -49,7 +55,9 @@ class MainActivity : AppCompatActivity()
         })
 
     }
-
+    /**
+     * Set up the user interface components and their respective click listeners.
+     */
     private fun setUI(){
         randomNumberTv = findViewById(R.id.main_random_number)
 
@@ -57,25 +65,15 @@ class MainActivity : AppCompatActivity()
         notifyTrueBtn = findViewById(R.id.true_btn)
        notifyFalseBtn = findViewById(R.id.false_btn)
 
-         //randomNumber = numberViewModel.numberState.value?.random ?: 0
-
-
-        //array = ArrayList() // Initialize the ArrayList
-
-
 
        randomizeBtn.setOnClickListener {
-            //updateRandomNumber()
-           numberViewModel.returnRandomNumber()
+
+           numberViewModel.returnRandomNumber()  // Update the random number using the ViewModel
             number = randomNumberTv.text.toString().toInt()
 
         }
 
-
-        // handle the true btn notifications
-       // updateRandomNumber()
-
-
+        // Handle the true button notifications
          notifyTrueBtn.setOnClickListener{
 
             val isPrime = CalcUtil.checkIfPrime(number)
@@ -85,32 +83,31 @@ class MainActivity : AppCompatActivity()
             val icon: Int
 
             if ( isPrime){
+                // set string values
                 title = getString(R.string.yay)
                 text = String.format(getString(R.string.answer_text),
                     number, getString(R.string.is_text))
 
                 icon = R.drawable.icon_true
-              // array.addAll(listOf(text,number.toString()))
 
                 intent = Intent(this, TrueActivity::class.java)
                 intent.putExtra("myIntent", text)
-               // move to the next Activity
 
-                // The Notification
+                // The Notification intent
                 notificationIntent = Intent(this, TrueActivity::class.java)
-                startActivity(intent)
+                startActivity(intent) // move to the next Activity
 
             } else{
                 title = getString(R.string.nay)
                 text = String.format(getString(R.string.answer_text), number, getString(R.string.is_not_text))
                 icon = R.drawable.icon_false
 
-                // Init the intent
+                // Init the intent button intent
                 intent = Intent(this, FalseActivity::class.java)
                 // put the values to the intent
                 intent.putExtra("myIntent", text)
+                // Init the intent Notification intent
                 notificationIntent = Intent(this, FalseActivity::class.java)
-
                 startActivity(intent)
             }
 
@@ -140,14 +137,15 @@ class MainActivity : AppCompatActivity()
 
                 startActivity(intent)
             } else{
+                // set string values
                 title = getString(R.string.nay)
                 text = String.format(getString(R.string.answer_text), number, getString(R.string.is_not_text))
                 icon = R.drawable.icon_false
-                //array.addAll(listOf(text,number.toString()))
 
+                // Init the button intent
                 intent = Intent(this, FalseActivity::class.java)
                 intent.putExtra("myIntent", text)
-
+                // Init the intent Notification intent
                 notificationIntent = Intent(this, FalseActivity::class.java)
 
                 startActivity(intent)
@@ -162,11 +160,5 @@ class MainActivity : AppCompatActivity()
 
 
     }
-
-//    private fun updateRandomNumber(){
-//        val randomNumber = CalcUtil.rng()
-//        randomNumberTv.text = randomNumber.toString()
-//        number = randomNumber
-//    }
 
 }

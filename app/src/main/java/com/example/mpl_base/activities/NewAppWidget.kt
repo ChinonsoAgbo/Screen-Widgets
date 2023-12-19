@@ -1,6 +1,6 @@
 package com.example.mpl_base.activities
 
-import com.example.mpl_base.view.NumberViewModel
+import com.example.mpl_base.activities.viewModel.NumberViewModel
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -25,17 +25,18 @@ class NewAppWidget : AppWidgetProvider() {
     private lateinit var numberViewModel: NumberViewModel
    private var numberObserver: Observer<NumberData>? = null
     private var randomNumber = 0
-    private lateinit var notifyIntent: Intent
     private var toNotify = false
 
-
+    /**
+     * Called when the App Widget is updated.
+     */
 
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-
+        // Get an instance of NumberViewModel
         numberViewModel = NumberViewModel.getInstance()
         // Observe changes in numberState LiveData
          numberObserver = Observer<NumberData> { newRandomNumber ->
@@ -47,8 +48,9 @@ class NewAppWidget : AppWidgetProvider() {
 
         }
         numberViewModel.numberState.observeForever(numberObserver!!)
+
         // initial random number
-       numberViewModel.returnRandomNumber()
+        randomNumber = (numberViewModel.numberState.value?.randomData ?: numberViewModel.returnRandomNumber()) as Int
     }
 
 
@@ -62,6 +64,9 @@ class NewAppWidget : AppWidgetProvider() {
 
     }
 
+    /**
+     * Called when a widget receives a broadcast Intent.
+     */
     override fun onReceive(context: Context?, intent: Intent?) {
         val appWidgetId = intent!!.getIntExtra(APP_WIDGET_ID,0)
 
@@ -72,7 +77,7 @@ class NewAppWidget : AppWidgetProvider() {
         // Observe changes in numberState LiveData
         numberViewModel.numberState.observeForever { numberData ->
             // This will be called whenever the value of numberState changes
-            randomNumber = numberData?.randomData ?: 0 //  update number value with the current random Number or when null set 0
+            randomNumber = numberData?.randomData ?: 0 //  update number value with the current random Number from randomData or when null set 0
         }
 
         // take care of  ui actions
@@ -100,14 +105,14 @@ class NewAppWidget : AppWidgetProvider() {
 
             }
 
-
-
         }
         super.onReceive(context, intent)
     }
 }
 
-
+/**
+ * Update the App Widget with the provided number and notification flag.
+ */
 internal fun updateAppWidget(
     context: Context,
     appWidgetManager: AppWidgetManager,
@@ -128,7 +133,9 @@ internal fun updateAppWidget(
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }
-
+/**
+ * Create a PendingIntent for refreshing the random number on the widget.
+ */
 internal fun refreshRandomNumber(context: Context, appWidgetId: Int ): PendingIntent{
     val refreshIntent = Intent(context, NewAppWidget::class.java)
     refreshIntent.putExtra(APP_WIDGET_ID,appWidgetId)
@@ -138,15 +145,15 @@ internal fun refreshRandomNumber(context: Context, appWidgetId: Int ): PendingIn
     return PendingIntent.getBroadcast(context,appWidgetId,refreshIntent,PendingIntent.FLAG_UPDATE_CURRENT)
 
 }
-
-
+/**
+ * Update the App Widget with the provided number and notification flag when the True button is clicked.
+ */
 internal fun checkTrueButtonResult (
     context: Context,
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int, number:Int, toNotify:Boolean
 ) {
-    val views = RemoteViews(context.packageName, R.layout.new_app_widget) // map the widget to th views-> Remote views
-
+    val views = RemoteViews(context.packageName, R.layout.new_app_widget)
         // Construct the RemoteViews object
         views.setTextViewText (R.id.appwidget_number, number.toString())
 
@@ -155,21 +162,26 @@ internal fun checkTrueButtonResult (
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }
 
+
+/**
+ * Update the App Widget with the provided number and notification flag when the False button is clicked.
+ */
 internal fun checkFalseButtonResult (
     context: Context,
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int, number:Int, toNotify: Boolean
 ) {
-    val views = RemoteViews(context.packageName, R.layout.new_app_widget) // map the widget to th views-> Remote views
+    val views = RemoteViews(context.packageName, R.layout.new_app_widget)
     // Construct the RemoteViews object
     views.setTextViewText (R.id.appwidget_number, number.toString())
-
    views.setOnClickPendingIntent(R.id.widget_wrong_button, notifyWrongButton(context,appWidgetId,number,toNotify))
 
     appWidgetManager.updateAppWidget(appWidgetId, views)
 
 }
-
+/**
+ * Create a PendingIntent for notifying the correct answer when the True button is clicked.
+ */
 internal fun notifyRightButton(context: Context, appWidgetId: Int, number:Int, toNotify: Boolean ): PendingIntent{
 
 
@@ -211,6 +223,9 @@ internal fun notifyRightButton(context: Context, appWidgetId: Int, number:Int, t
 
 
 }
+/**
+ * Create a PendingIntent for notifying the correct answer when the False button is clicked.
+ */
 internal fun notifyWrongButton(context: Context, appWidgetId: Int, number:Int,toNotify: Boolean ): PendingIntent{
 
     val notificationIntent: Intent

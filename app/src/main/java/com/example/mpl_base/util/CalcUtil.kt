@@ -3,7 +3,7 @@ package com.example.mpl_base.util
 class CalcUtil
 {
     companion object{
-//        var randomNumber: Int = rng()
+
 
         fun rng(): Int
         {

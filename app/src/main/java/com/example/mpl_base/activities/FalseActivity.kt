@@ -19,16 +19,14 @@ class FalseActivity : AppCompatActivity() {
         backBtn = findViewById(R.id.back_false_ActivityBtn)
         textViewFalseTv = findViewById(R.id.textView_False_Tv)
 
-
-
         val intentValue = intent.getStringExtra("myIntent") ?: intent.getStringExtra(
-            RANDOM_NUMBER)
-        textViewFalseTv.text = intentValue
+            RANDOM_NUMBER)        // Extract the intent value
 
-        backBtn.setOnClickListener{
+        textViewFalseTv.text = intentValue //   display value
+
+        backBtn.setOnClickListener{  // return Activity to main Activity
 
             bckFalseIntent = Intent(this,MainActivity::class.java)
-           // bckFalseIntent.putStringArrayListExtra("intentBck",intentValue)
             startActivity(bckFalseIntent)
         }
 
